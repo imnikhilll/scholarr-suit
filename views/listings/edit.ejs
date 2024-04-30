@@ -1,0 +1,55 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-5">
+    <div class="col-8 offset-2">
+
+  
+
+    <h3>Edit your Rooms</h3>
+    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation">
+        <div class="mb-3">
+            <label for="tittle" class="form-label">Name</label>
+            <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required/>
+            <div class="invalid-feedback">Please enter a name</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="listing[description]" class="form-control" required> <%= listing.description %> </textarea
+                >
+                <div class="invalid-feedback">Please enter a description</div>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Image Link</label>
+            <input name="listing[image]" value="<%= listing.image %>" type="text" class="form-control" required/>
+            <div class="invalid-feedback">Please enter a image-link</div>
+        </div>
+
+        <div class="row">
+      <div class="mb-3 col-md-4">
+        <label for="price" class="form-label">Price</label>
+        <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" required />
+        <div class="invalid-feedback">Please enter price</div>
+      </div>
+      
+    <div class="mb-3 col-md-8">
+        <label for="category" class="form-label">Available</label>
+        <input
+        name="listing[category]" value="<%= listing.category %>" type="text" class="form-control" required />
+        <div class="invalid-feedback">Please enter Available or not</div>
+
+    </div>
+</div>
+      <div class="mb-3">
+        <label for="flavor" class="form-label">Facilities</label>
+        <input name="listing[flavor]" value="<%= listing.flavor %>" type="text" class="form-control" required />
+        <div class="invalid-feedback">Please enter Facilities</div>
+      </div>
+    
+      <button class="btn btn-dark edit-btn mt-4 mb-4">Edit</button>
+    </form>
+
+</div>
+</div>
+
+<script src="/js/script.js"></script>

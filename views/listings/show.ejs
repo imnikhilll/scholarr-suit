@@ -1,0 +1,215 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+    .hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #f8f9fa;
+        padding: 4rem 2rem;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        flex: 1;
+        max-width: 600px;
+        animation: fadeInLeft 1s ease;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+
+    .hero-image {
+        flex: 1;
+        max-width: 600px;
+        animation: fadeInRight 1s ease;
+    }
+
+    .hero-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        text-decoration: none;
+        border-radius: 0.25rem;
+        transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .show-card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .show-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .review-card {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .order-btn,
+    .btn-info,
+    .btn-danger {
+        transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .order-btn:hover,
+    .btn-info:hover,
+    .btn-danger:hover {
+        transform: translateY(-3px);
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .btn-info:hover,
+    .btn-danger:hover,
+    .btn-success:hover {
+        transform: translateY(-3px);
+    }
+
+    @keyframes fadeInLeft {
+        0% {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeInRight {
+        0% {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+</style>
+
+<div class="row mt-4">
+    <div class="col-8 offset-3">
+        <h3><%= listing.title %></h3>
+    </div>
+    <div class="card col-6 offset-3 show-card listing-card">
+        <img src="<%= listing.image %>" class="card-img-top show-img" alt="sweets_image">
+        <div class="card-body">
+            <p class="card-text">Owned by - <i><%= listing.owner.username %></i></p>
+            <p class="card-text">Room description - <%= listing.description %></p>
+            <p class="card-text">&#8377; <%= listing.price.toLocaleString("en-IN") %> /Month</p>
+            <p class="card-text">Location - <%= listing.category %></p>
+            <p class="card-text">Owner's Contact Number - <%= listing.flavor %></p>
+        </div>
+    </div>
+
+    <br />
+
+    <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
+    <div class="btns">
+        <a href="/listings/<%= listing._id %>/edit" class="btn btn-info col-1 offset-3">Edit</a>
+        <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
+            <button class="btn btn-danger offset-5">Delete</button>
+        </form>
+    </div>
+    <% } %>
+
+    <% if(! (currUser && currUser._id.equals(listing.owner._id))) { %>
+    <a style="color: #f8f9fa !important; width: 130px !important;" href="/listings/<%= listing._id %>/order" class="btn btn-success col-1 offset-6 " >Book Now</a>
+    <% } %>
+
+    <div class="col-8 offset-3 mb-4">
+        <hr />
+        <% if(currUser) { %>
+        <h4>Leave a review</h4>
+        <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
+            <div class="mb-3 mt-3">
+                <label for="rating" class="form-label">Rating</label>
+                <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range" />
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="comment" class="form-label"></label>
+                <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
+                <div class="invalid-feedback">Please add comment for a review</div>
+            </div>
+            <button class="btn btn-outline-dark">Submit</button>
+        </form>
+        <hr />
+        <% } %>
+
+        <p><b>All Reviews</b></p>
+
+        <div class="row">
+            <% for(review of listing.reviews) { %>
+            <div class="card col-5 ms-3 mb-4 review-card">
+                <div class="card-body">
+                    <h5 class="card-title mt-1">@<%= review.author.username %></h5>
+                    <p class="card-text"><%= review.comment %></p>
+                    <p class="card-text"><%= review.rating %> &#x2B50;</p>
+                    <form class="mb-3" method="POST" action="/listings/<%= listing._id%>/reviews/<%= review._id%>?_method=DELETE">
+                        <button class="btn btn-sm btn-danger mt-2 del-btn">Delete</button>
+                    </form>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</div>

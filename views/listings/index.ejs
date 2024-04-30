@@ -1,0 +1,176 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+    .hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #f8f9fa;
+        padding: 4rem 2rem;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        flex: 1;
+        max-width: 600px;
+        animation: fadeInLeft 1s ease;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+
+    .hero-image {
+        flex: 1;
+        max-width: 600px;
+        animation: fadeInRight 1s ease;
+    }
+
+    .hero-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        text-decoration: none;
+        border-radius: 0.25rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .icon-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: #333;
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .icon-link:hover {
+        transform: translateY(-5px);
+        color: #007bff;
+    }
+
+    .icon-link i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        animation: bounce 1s infinite;
+    }
+
+    @keyframes fadeInLeft {
+        0% {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeInRight {
+        0% {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const exploreButton = document.querySelector(".btn.btn-primary");
+        const exploreSection = document.querySelector(".explore-room");
+
+        exploreButton.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+            exploreSection.scrollIntoView({ behavior: "smooth" }); // Scroll to the explore section
+        });
+    });
+</script>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Scholar Suites</h1>
+        <p>Indulge in our delightful array of accommodations, from cozy rooms to luxurious suites, and make your stay truly unforgettable</p>
+        <a href="#" class="btn btn-primary" style="color: white !important; ">Explore</a>
+    </div>
+    <div class="hero-image">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn-OKTPEBwJeJGUxlm_Avug6k025qSqgaZBg&s" >
+    </div>
+</section>
+
+<!-- <div class="d-flex justify-content-center mt-4">
+    <a href="/listings/cookies" class="icon-link mx-4">
+        <i class="fa-solid fa-stroopwafel"></i>
+        <p>Cookies</p>
+    </a>
+    <a href="/listings/cakes" class="icon-link mx-4">
+        <i class="fa-solid fa-cake-candles"></i>
+        <p>Cakes</p>
+    </a>
+    <a href="/listings/ice-cream" class="icon-link mx-4">
+        <i class="fa-solid fa-ice-cream"></i>
+        <p>Ice-cream</p>
+    </a>
+</div> -->
+
+<div class="explore-room"  style="height: 25px !important;
+margin-top: 20px !important;
+font-size: xx-large;
+margin-bottom: 50px !important;
+font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+    Explore the Room's here.
+</div><hr>
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-4">
+    <% for(let listing of allListings) { %>
+    <a href="/listings/<%= listing._id %>" class="listing-link">
+        <div class="card col listing-card">
+            <img src="<%= listing.image %>" class="card-img-top" alt="sweets_image" style="height: 20rem;">
+            <div class="card-img-overlay"> </div>
+            <div class="card-body">
+                <b>
+                    <p class="card-text"><%= listing.title %></b><br>
+                    &#8377;<%= listing.price.toLocaleString("en-IN") %> /-month <br>
+                    Location - <%= listing.category %> <br>
+                    Owner's Contact - <%= listing.flavor %>
+                </p>
+            </div>
+        </div>
+    </a>
+    <% } %>
+</div>

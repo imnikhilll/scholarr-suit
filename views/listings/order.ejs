@@ -1,0 +1,198 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .invalid-feedback {
+        color: red;
+        display: none;
+    }
+
+    .is-invalid {
+        border-color: red;
+    }
+
+    /* Order Successful Animation */
+    .order-successful {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s, visibility 0.5s;
+        z-index: 9999;
+    }
+
+    .order-successful.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .order-successful-content {
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 10px;
+        text-align: center;
+        animation: slideUp 0.5s ease-in-out;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .order-successful-content h2 {
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    /* Confetti Animation */
+    .confetti-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: #f1c40f;
+        border-radius: 50%;
+        animation: confettiFall 3s ease infinite;
+    }
+
+    @keyframes confettiFall {
+        0% {
+            transform: translateY(-100vh) rotate(0deg);
+        }
+        100% {
+            transform: translateY(100vh) rotate(360deg);
+        }
+    }
+</style>
+
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Booking Description</h2>
+    <form id="orderForm" class="needs-validation" novalidate>
+        <!-- Name -->
+        <div class="form-group mt-2">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+            <div class="invalid-feedback">Please enter a name.</div>
+        </div>
+        <!-- Mobile Number -->
+        <div class="form-group mt-4">
+            <label for="mobile">Mobile Number</label>
+            <input type="tel" class="form-control" id="mobile" placeholder="Enter your mobile number" required>
+            <div class="invalid-feedback">Please enter a valid mobile number.</div>
+        </div>
+        <!-- Email -->
+        <div class="form-group mt-4">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            <div class="invalid-feedback">Please enter a valid email address.</div>
+        </div>
+        <!-- Quantity -->
+        <!-- <div class="form-group mt-4">
+            <label for="quantity">Quantity</label>
+            <input type="number" class="form-control" id="quantity" placeholder="Enter quantity" required>
+            <div class="invalid-feedback">Please enter a valid quantity.</div>
+        </div> -->
+        <!-- Address -->
+        <div class="form-group mt-4">
+            <label for="address">Your Home Address</label>
+            <textarea class="form-control" id="address" rows="3" placeholder="Enter your address" required></textarea>
+            <div class="invalid-feedback">Please enter your address.</div>
+        </div>
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary mt-5 mb-4">Book Now</button>
+    </form>
+</div>
+
+<div class="order-successful">
+    <div class="order-successful-content">
+        <h2>Booked Successfully!</h2>
+        <div class="confetti-container">
+            <!-- Confetti elements will be dynamically added here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('orderForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        if (this.checkValidity()) {
+            // Form is valid, proceed with submission
+            document.querySelector('.order-successful').classList.add('show');
+            createConfetti();
+        } else {
+            // Form is invalid, show error messages
+            event.stopPropagation();
+            Array.from(this.elements).forEach(function(element) {
+                if (!element.checkValidity()) {
+                    element.classList.add('is-invalid');
+                    element.nextElementSibling.style.display = 'block';
+                } else {
+                    element.classList.remove('is-invalid');
+                    element.nextElementSibling.style.display = 'none';
+                }
+            });
+        }
+    });
+
+    function createConfetti() {
+        const confettiContainer = document.querySelector('.confetti-container');
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.animationDelay = Math.random() * 3 + 's';
+            confettiContainer.appendChild(confetti);
+        }
+    }
+</script>
+</body>

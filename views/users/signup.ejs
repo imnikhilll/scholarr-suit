@@ -1,0 +1,126 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+    .signup-container {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        animation: fadeIn 0.5s ease;
+    }
+
+    .signup-container h1 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        animation: slideInDown 0.5s ease;
+    }
+
+    .form-control {
+        border-radius: 4px;
+        border-color: #ddd;
+        padding: 0.75rem 1rem;
+        transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: none;
+        transform: translateY(-2px);
+    }
+
+    .form-control.is-invalid {
+        border-color: #dc3545;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        color: #fff;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        animation: bounceIn 0.5s ease;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        transform: translateY(-2px);
+    }
+
+    .valid-feedback,
+    .invalid-feedback {
+        display: none;
+        font-size: 0.9rem;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .form-control.is-invalid + .invalid-feedback {
+        display: block;
+    }
+
+    .form-control.is-valid + .valid-feedback {
+        display: block;
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInDown {
+        0% {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes bounceIn {
+        0% {
+            transform: scale(0.8);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+</style>
+
+<div class="row mt-5">
+    <div class="col-6 offset-3 signup-container">
+        <h1>Signup on Scholar Suites</h1>
+        <form action="/signup" method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input name="username" id="username" type="text" class="form-control" required />
+                <div class="valid-feedback">Username looks good!</div>
+                <div class="invalid-feedback">Please enter a valid username</div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input name="email" id="email" type="email" class="form-control" required />
+                <div class="valid-feedback">good!</div>
+                <div class="invalid-feedback">Please enter your email</div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input name="password" id="password" type="password" class="form-control" required />
+                <div class="valid-feedback">Password done!</div>
+                <div class="invalid-feedback">Please enter a password</div>
+            </div>
+            <button class="btn btn-success">Sign Up</button>
+        </form>
+    </div>
+</div>
